@@ -1,24 +1,23 @@
-import { useToast } from "@/hooks/use-toast";
-import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from "@/components/ui/toast";
+import { Toaster as Sonner } from "sonner"
+import * as React from "react"
 
-export function Toaster() {
-  const { toasts } = useToast();
+type ToasterProps = React.ComponentProps<typeof Sonner>
 
+export const Toaster = ({ ...props }: ToasterProps) => {
   return (
-    <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
-        return (
-          <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && <ToastDescription>{description}</ToastDescription>}
-            </div>
-            {action}
-            <ToastClose />
-          </Toast>
-        );
-      })}
-      <ToastViewport />
-    </ToastProvider>
-  );
+    <Sonner
+      theme="light"   // change to "dark" if needed
+      className="toaster group"
+      toastOptions={{
+        classNames: {
+          toast:
+            "group toast bg-white text-black border border-gray-200 shadow-lg",
+          description: "text-gray-600",
+          actionButton: "bg-blue-600 text-white",
+          cancelButton: "bg-gray-200 text-black",
+        },
+      }}
+      {...props}
+    />
+  )
 }
