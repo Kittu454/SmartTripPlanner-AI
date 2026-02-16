@@ -13,25 +13,28 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        {/* Toast Notifications */}
-        <Toaster position="top-right" richColors />
+  async function testEdgeFunction() {
+    const res = await fetch(
+      "https://PROJECT_REF.functions.supabase.co/hello-world",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ test: true }),
+      }
+    );
 
-        {/* Routing */}
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/planner" element={<Planner />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-    </QueryClientProvider>
+    const data = await res.json();
+    console.log("Edge response:", data);
+  }
+
+  return (
+    <div>
+      <button onClick={testEdgeFunction}>
+        Test Edge Function
+      </button>
+    </div>
   );
 }
 
