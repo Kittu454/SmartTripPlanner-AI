@@ -6,35 +6,27 @@ import { AuthProvider } from "./hooks/useAuth";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Planner from "./pages/Planner";
-import Results from "./pages/Results";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 function App() {
-  async function testEdgeFunction() {
-    const res = await fetch(
-      "https://jxpodqjsuufwksgsgzgb.supabase.co/functions/v1/hello-world",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ test: true }),
-      }
-    );
-
-    const data = await res.json();
-    console.log("Edge response:", data);
-  }
-
   return (
-    <div>
-      <button onClick={testEdgeFunction}>
-        Test Edge Function
-      </button>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Toaster />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/planner" element={<Planner />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 
