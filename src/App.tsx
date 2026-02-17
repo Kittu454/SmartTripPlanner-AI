@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 function App() {
   async function testEdgeFunction() {
     const res = await fetch(
-      "https://PROJECT_REF.functions.supabase.co/hello-world",
+      "https://jxpodqjsuufwksgsgzgb.supabase.co/functions/v1/hello-world",
       {
         method: "POST",
         headers: {
